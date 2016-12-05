@@ -54,7 +54,7 @@ data ResponseData = ResponseData { response :: String
 type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSON] ResponseData
       :<|> "getREADME"                  :> Get '[JSON] ResponseData
       :<|> "storeMessage"               :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
-      :<|> "logIn"                      :> ReqBody '[JSON] Login  :> Post '[JSON] ResponseData
+      :<|> "logIn"                      :> ReqBody '[JSON] Login  :> Post '[JSON] [ResponseData]
       :<|> "signUp"                     :> ReqBody '[JSON] Login  :> Post '[JSON] Bool
       :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]
       :<|> "performRESTCall"            :> QueryParam "filter" String  :> Get '[JSON] ResponseData
