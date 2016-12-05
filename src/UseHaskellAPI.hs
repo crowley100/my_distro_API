@@ -29,7 +29,7 @@ data Message = Message { name    :: String
                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 data Login = Login { userName :: String
-                   , passowrd :: String
+                   , password :: String
                    } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 deriving instance FromBSON String  -- we need these as BSON does not provide
@@ -54,7 +54,7 @@ data ResponseData = ResponseData { response :: String
 type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSON] ResponseData
       :<|> "getREADME"                  :> Get '[JSON] ResponseData
       :<|> "storeMessage"               :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
-      :<|> "logIn"                      :> ReqBody '[JSON] Login  :> Post '[JSON] Bool
+      :<|> "logIn"                      :> ReqBody '[JSON] Login  :> Post '[JSON] ResponseData
       :<|> "signUp"                     :> ReqBody '[JSON] Login  :> Post '[JSON] Bool
       :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]
       :<|> "performRESTCall"            :> QueryParam "filter" String  :> Get '[JSON] ResponseData
