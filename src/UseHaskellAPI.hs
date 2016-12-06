@@ -70,4 +70,4 @@ type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSO
 
 type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON] Bool
           :<|> "unlock"                 :> ReqBody '[JSON] String :> Post '[JSON] Bool
-          :<|> "locked"                 :> QueryParam "fName" String :> Get '[JSON] ResponseData
+          :<|> "locked"                 :> QueryParam "fName" String :> Get '[JSON] Bool
