@@ -28,12 +28,21 @@ data Message = Message { name    :: String
                        , message :: String
                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
+-- auth stuff
 data Login = Login { userName :: String
                    , password :: String
                    } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 deriving instance FromBSON String  -- we need these as BSON does not provide
 deriving instance ToBSON   String
+
+-- locking stuff
+data Lock = Lock { fName :: String
+                 , state :: Bool
+                 }deriving (Generic, FromJSON, ToBSON, FromBSON)
+
+deriving instance FromBSON Bool
+deriving instance ToBSON   Bool
 
 -- | We will also define a simple data type for returning data from a REST call, again with nothing special or
 -- particular in the response, but instead merely as a demonstration.
@@ -58,3 +67,7 @@ type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSO
       :<|> "signUp"                     :> ReqBody '[JSON] Login  :> Post '[JSON] Bool
       :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]
       :<|> "performRESTCall"            :> QueryParam "filter" String  :> Get '[JSON] ResponseData
+
+type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON] Bool
+          :<|> "unlock"                 :> ReqBody '[JSON] String :> Post '[JSON] Bool
+          :<|> "locked"                 :> QueryParam "fName" String :> Get '[JSON] ResponseData
