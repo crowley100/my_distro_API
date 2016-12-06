@@ -7,7 +7,7 @@
 {-# LANGUAGE TypeOperators        #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 
-module UseHaskellAPISever where
+module UseHaskellAPIServer where
 
 import           Control.Monad                (when)
 import           Control.Monad.IO.Class
