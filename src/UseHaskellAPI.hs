@@ -44,6 +44,9 @@ data Lock = Lock { fName :: String
 deriving instance FromBSON Bool
 deriving instance ToBSON   Bool
 
+data StrWrap = StrWrap { line    :: String
+                       } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
 -- | We will also define a simple data type for returning data from a REST call, again with nothing special or
 -- particular in the response, but instead merely as a demonstration.
 
