@@ -24,9 +24,9 @@ import           Servant
 
 -- The relevant code is thus commented out here and the use-haskell-api library content is used instead
 
-data Message = Message { name    :: String
-                       , message :: String
-                       } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+--data Message = Message { name    :: String
+--                       , message :: String
+--                       } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 -- auth stuff
 data Login = Login { userName :: String
