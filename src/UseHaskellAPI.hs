@@ -16,14 +16,7 @@ import           Data.Bson.Generic
 import           GHC.Generics
 import           Servant
 
-
--- Note that in this version of the project, I have moved the REST API into a shared library called use-haskell-api
--- This library is imported here in order that the HackageAPI type is available to create the REST service of that
--- type. Note that there is no advantage in doing this if you are only building a servant REST service, but if you are
--- creating a corresponding REST client, then following this architectural pattern simplifies development considerably.
-
--- The relevant code is thus commented out here and the use-haskell-api library content is used instead
-
+-- generic message
 data Message = Message { name    :: String
                        , message :: String
                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
@@ -39,10 +32,16 @@ deriving instance ToBSON   String
 -- locking stuff
 data Lock = Lock { fName :: String
                  , state :: Bool
-                 }deriving (Generic, FromJSON, ToBSON, FromBSON)
+                 }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 deriving instance FromBSON Bool
 deriving instance ToBSON   Bool
+
+-- directory stuff
+data FileRef = FileRef { fID :: String
+                       , fServerIP :: String
+                       , fServerPort :: String
+                       }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 data StrWrap = StrWrap { line :: String
                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
@@ -78,3 +77,5 @@ type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON
 -- currently using Message type for files... (NOT TESTED!)
 type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSON] [Message]
           :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
+
+type DirAPI = "fileQuery"               :> QueryParam "name" String :> Get '[JSON] [Message]
