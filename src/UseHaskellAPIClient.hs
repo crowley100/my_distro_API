@@ -26,7 +26,7 @@ loadEnvVars :: Maybe String -> ClientM ResponseData
 getREADME :: ClientM ResponseData
 storeMessage :: Message -> ClientM Bool
 logIn :: Login -> ClientM [ResponseData]
-signUp :: Login -> ClientM Bool
+signUp :: Login -> ClientM ResponseData
 searchMessage :: Maybe String -> ClientM [Message]
 performRestCall :: Maybe String -> ClientM ResponseData
 -- lock stuff here
