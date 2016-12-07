@@ -26,6 +26,10 @@ data Login = Login { userName :: String
                    , password :: String
                    } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
+--data Token = Token { ticket :: Ticket
+--                   ,
+--                   }
+
 deriving instance FromBSON String  -- we need these as BSON does not provide
 deriving instance ToBSON   String
 
@@ -66,7 +70,7 @@ type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSO
       :<|> "getREADME"                  :> Get '[JSON] ResponseData
       :<|> "storeMessage"               :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
       :<|> "logIn"                      :> ReqBody '[JSON] Login  :> Post '[JSON] [ResponseData]
-      :<|> "signUp"                     :> ReqBody '[JSON] Login  :> Post '[JSON] Bool
+      :<|> "signUp"                     :> ReqBody '[JSON] Login  :> Post '[JSON] ResponseData
       :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]
       :<|> "performRESTCall"            :> QueryParam "filter" String  :> Get '[JSON] ResponseData
 

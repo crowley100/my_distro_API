@@ -44,6 +44,8 @@ import           System.Log.Logger
 
 -- Helper functions...
 
+-- PUT SERVER SHARED SECRET
+
 -- | error stuff
 custom404Error msg = err404 { errBody = msg }
 
