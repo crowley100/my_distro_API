@@ -78,4 +78,4 @@ type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON
 type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSON] [Message]
           :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
-type DirAPI = "fileQuery"               :> QueryParam "name" String :> Get '[JSON] [Message]
+type DirAPI = "fileQuery"               :> QueryParam "name" String :> Get '[JSON] [FileRef]
