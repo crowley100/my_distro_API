@@ -74,3 +74,7 @@ type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSO
 type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON] Bool
           :<|> "unlock"                 :> ReqBody '[JSON] String :> Post '[JSON] Bool
           :<|> "locked"                 :> QueryParam "fName" String :> Get '[JSON] Bool
+
+-- currently using Message type for files... (NOT TESTED!)
+type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSON] [Message]
+          :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
