@@ -15,6 +15,39 @@ import           Data.Aeson.TH
 import           Data.Bson.Generic
 import           GHC.Generics
 import           Servant
+import           Crypto.BCrypt
+import           Crypto.Cipher.AES
+import           Codec.Crypto.RSA
+import qualified Data.ByteString.Char8        as BS
+
+-- sharedCrypto functions
+-- appends null ('\0') characters until multiple of 16
+aesPad :: String -> String
+aesPad text
+  | ((mod (length text) 16) == 0) = text
+  | otherwise = aesPad (text ++ "\0")
+
+-- strips null ('\0') characters from end of string
+aesUnpad :: String -> String
+aesUnpad text = takeWhile (/= '\0') text
+
+-- seed -> string_to_encrypt -> encrypted_string
+myEncryptAES :: String -> String -> String
+myEncryptAES seed text = do
+  let bseed = (BS.pack $ aesPad seed)
+      btext = (BS.pack $ aesPad text)
+  let myKey = initKey bseed
+  let encryption = encryptECB myKey btext
+  BS.unpack encryption
+
+-- seed -> string_to_decrypt -> decrypted_string (unpadded)
+myDecryptAES :: String -> String -> String
+myDecryptAES seed text = do
+  let bseed = (BS.pack $ aesPad seed)
+      btext = (BS.pack text)
+  let myKey = initKey bseed
+  let decryption = decryptECB myKey btext
+  aesUnpad $ BS.unpack decryption
 
 -- generic message
 data Message = Message { name    :: String
