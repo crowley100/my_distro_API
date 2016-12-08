@@ -19,6 +19,7 @@ import           Crypto.BCrypt
 import           Crypto.Cipher.AES
 import           Codec.Crypto.RSA
 import qualified Data.ByteString.Char8        as BS
+import           RSAhelpers
 
 -- sharedCrypto functions
 -- appends null ('\0') characters until multiple of 16
@@ -49,6 +50,10 @@ myDecryptAES seed text = do
   let decryption = decryptECB myKey btext
   aesUnpad $ BS.unpack decryption
 
+-- RSA to ResponseData
+toResponseData :: PubKeyInfo -> [ResponseData]
+toResponseData msg@(PubKeyInfo strKey strN strE)=((ResponseData $ strKey):(ResponseData $ strN):(ResponseData $ strE):[])
+
 -- generic message
 data Message = Message { name    :: String
                        , message :: String
@@ -58,13 +63,6 @@ data Message = Message { name    :: String
 data Login = Login { userName :: String
                    , password :: String
                    } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
-
---data Token = Token { ticket :: Ticket
---                   ,
---                   }
-
-deriving instance FromBSON String  -- we need these as BSON does not provide
-deriving instance ToBSON   String
 
 -- locking stuff
 data Lock = Lock { fName :: String

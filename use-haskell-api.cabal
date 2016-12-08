@@ -5,8 +5,8 @@ description:         Please see README.md
 homepage:            https://github.com/esjmb/use-haskell-api#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Stephen Barrett
-maintainer:          Stephen.Barrett@tcd.ie
+author:              Lorcan Reidy
+maintainer:          Lorcan.Reidy@tcd.ie
 copyright:           2016
 category:            test
 build-type:          Simple
@@ -19,6 +19,7 @@ library
                      , UseHaskellAPI
                      , UseHaskellAPIClient
                      , UseHaskellAPIServer
+                     , RSAhelpers
   build-depends:       base >= 4.7 && < 5
                     , aeson
                     , servant
@@ -42,6 +43,9 @@ library
                     , random
                     , RSA
                     , cipher-aes
+                    , crypto-api
+                    , cryptohash
+                    , DRBG
   default-language:    Haskell2010
 
 source-repository head
