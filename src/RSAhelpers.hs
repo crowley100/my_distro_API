@@ -10,10 +10,13 @@
 module RSAhelpers where
 
 import           GHC.Generics
+import           Control.Monad.IO.Class
 import           Codec.Crypto.RSA
 import           Crypto.Hash.SHA256 (hash)
 import qualified System.Random  as R
 import qualified Data.ByteString.Char8        as BS
+import qualified Data.ByteString.Lazy.Char8   as C
+import qualified Data.List                    as DL
 import           Crypto.Random.DRBG
 import           Data.Aeson
 import           Data.Aeson.TH
@@ -78,3 +81,10 @@ toPrivateKey msg@(PrivKeyInfo  strPub strPrvD strPrvP strPrvQ strPrvDP strPrvDQ 
       private_dP   =  read strPrvDP :: Integer
       private_dQ   =  read strPrvDQ :: Integer
       private_qinv =  read strQINV :: Integer
+
+encryptPass :: PublicKey -> String -> IO String
+encryptPass key password = liftIO $ do
+  myRand <- newGenIO :: IO HashDRBG
+  let bpass = C.pack password
+  let (res,_) = (encrypt myRand key bpass)
+  return $ C.unpack res
