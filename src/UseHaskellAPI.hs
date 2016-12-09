@@ -100,6 +100,7 @@ data ResponseData = ResponseData { response :: String
 type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSON] ResponseData
       :<|> "getREADME"                  :> Get '[JSON] ResponseData
       :<|> "storeMessage"               :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
+      :<|> "loadPublicKey"              :> Get '[JSON] [ResponseData]
       :<|> "logIn"                      :> ReqBody '[JSON] Login  :> Post '[JSON] [ResponseData]
       :<|> "signUp"                     :> ReqBody '[JSON] Login  :> Post '[JSON] ResponseData
       :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]

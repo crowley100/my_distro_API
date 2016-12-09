@@ -25,6 +25,7 @@ restLockAPI = Proxy
 loadEnvVars :: Maybe String -> ClientM ResponseData
 getREADME :: ClientM ResponseData
 storeMessage :: Message -> ClientM Bool
+loadPublicKey :: ClientM [ResponseData]
 logIn :: Login -> ClientM [ResponseData]
 signUp :: Login -> ClientM ResponseData
 searchMessage :: Maybe String -> ClientM [Message]
@@ -38,5 +39,5 @@ locked :: Maybe String -> ClientM Bool
 -- | The following provides the implementations of these types
 -- Note that the order of the functions must match the endpoints in the type API from UseHaskell.hs
 
-(loadEnvVars :<|> getREADME :<|> storeMessage :<|> logIn :<|> signUp :<|> searchMessage :<|> performRestCall) = client restAPI
+(loadEnvVars :<|> getREADME :<|> storeMessage :<|> loadPublicKey :<|> logIn :<|> signUp :<|> searchMessage :<|> performRestCall) = client restAPI
 (lock :<|> unlock :<|> locked) = client restLockAPI
