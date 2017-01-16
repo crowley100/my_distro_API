@@ -19,6 +19,9 @@ restAPI = Proxy
 restLockAPI :: Proxy LockAPI
 restLockAPI = Proxy
 
+restFileApi :: Proxy FileAPI
+restFileApi = Proxy
+
 -- | The function type of the interface here.
 -- Each function matches one of the endpoints in type API from UseHaskellAPI.hs
 
@@ -34,6 +37,9 @@ performRestCall :: Maybe String -> ClientM ResponseData
 lock :: String -> ClientM Bool
 unlock :: String -> ClientM Bool
 locked :: Maybe String -> ClientM Bool
+-- file service stuff here
+download :: Maybe String -> ClientM [Message]
+upload :: Message -> ClientM Bool
 
 
 -- | The following provides the implementations of these types
@@ -41,3 +47,4 @@ locked :: Maybe String -> ClientM Bool
 
 (loadEnvVars :<|> getREADME :<|> storeMessage :<|> loadPublicKey :<|> logIn :<|> signUp :<|> searchMessage :<|> performRestCall) = client restAPI
 (lock :<|> unlock :<|> locked) = client restLockAPI
+(download :<|> upload) = client restFileApi
