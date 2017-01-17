@@ -114,4 +114,6 @@ type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON
 type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSON] [Message]
           :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
+-- execute these commands in app as part of upload/download
 type DirAPI = "fileQuery"               :> QueryParam "name" String :> Get '[JSON] [FileRef]
+         :<|> "mapFile"                 :> QueryParam "name" String :> Get '[JSON] [FileRef]
