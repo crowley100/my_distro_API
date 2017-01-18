@@ -44,8 +44,10 @@ locked :: Maybe String -> ClientM Bool
 download :: Maybe String -> ClientM [Message]
 upload :: Message -> ClientM Bool
 -- directory service stuff here
-fileQuery :: Maybe String -> ClientM [FileRef]
-mapFile :: Maybe String -> ClientM [FileRef]
+lsDir :: ClientM [ResponseData]
+lsFile :: Maybe String -> ClientM [ResponseData]
+fileQuery :: Message -> ClientM [FileRef]
+mapFile :: Message -> ClientM [FileRef]
 
 -- | The following provides the implementations of these types
 -- Note that the order of the functions must match the endpoints in the type API from UseHaskell.hs
@@ -53,4 +55,4 @@ mapFile :: Maybe String -> ClientM [FileRef]
 (loadEnvVars :<|> getREADME :<|> storeMessage :<|> loadPublicKey :<|> logIn :<|> signUp :<|> searchMessage :<|> performRestCall) = client restAPI
 (lock :<|> unlock :<|> locked) = client restLockAPI
 (download :<|> upload) = client restFileAPI
-(fileQuery :<|> mapFile) = client restDirAPI
+(lsDir :<|> lsFile :<|> fileQuery :<|> mapFile) = client restDirAPI

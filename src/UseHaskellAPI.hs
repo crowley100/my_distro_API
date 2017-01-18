@@ -115,5 +115,7 @@ type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSO
           :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
 -- execute these commands in app as part of upload/download
-type DirAPI = "fileQuery"               :> QueryParam "name" String :> Get '[JSON] [FileRef]
-         :<|> "mapFile"                 :> QueryParam "name" String :> Get '[JSON] [FileRef]
+type DirAPI = "lsDir"                   :> Get '[JSON] [ResponseData]
+         :<|> "lsFile"                  :> QueryParam "name" String :> Get '[JSON] [ResponseData]
+         :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
+         :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
