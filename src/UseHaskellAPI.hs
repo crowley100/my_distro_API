@@ -72,11 +72,29 @@ data Lock = Lock { fName :: String
 deriving instance FromBSON Bool
 deriving instance ToBSON   Bool
 
--- directory stuff
-data FileRef = FileRef { fID :: String
+-- directory stuff starts here
+data FileRef = FileRef { filePath :: String
+                       , fID :: String
                        , fServerIP :: String
                        , fServerPort :: String
                        }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
+data FsInfo = FsInfo  { myName :: String
+                      , ip :: String
+                      , port :: String
+                      }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
+data FileID = FileID  { directory :: String
+                      , idNum :: String
+                      }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
+data FsContents = FsContents  { dirName :: String
+                              , fsFiles :: [String]
+                              }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+-- directory stuff ends here
+
+deriving instance FromBSON [String]
+deriving instance ToBSON   [String]
 
 data StrWrap = StrWrap { line :: String
                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
