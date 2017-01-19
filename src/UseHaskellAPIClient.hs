@@ -44,8 +44,8 @@ locked :: Maybe String -> ClientM Bool
 download :: Maybe String -> ClientM [Message]
 upload :: Message -> ClientM Bool
 -- directory service stuff here
-lsDir :: ClientM [ResponseData]
-lsFile :: Maybe String -> ClientM [ResponseData]
+lsDir :: ClientM [FsContents]
+lsFile :: Maybe String -> ClientM [FsContents]
 fileQuery :: Message -> ClientM [FileRef]
 mapFile :: Message -> ClientM [FileRef]
 
