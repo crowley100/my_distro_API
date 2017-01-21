@@ -75,6 +75,7 @@ deriving instance ToBSON   Bool
 -- directory stuff starts here
 data FileRef = FileRef { filePath :: String
                        , fID :: String
+                       , fTimeStamp :: String
                        , fServerIP :: String
                        , fServerPort :: String
                        }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
