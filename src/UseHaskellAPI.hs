@@ -78,7 +78,7 @@ data FileRef = FileRef { filePath :: String
                        , fTimeStamp :: String
                        , fServerIP :: String
                        , fServerPort :: String
-                       }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+                       }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 data FsInfo = FsInfo  { myName :: String
                       , ip :: String
@@ -94,11 +94,25 @@ data FsContents = FsContents  { dirName :: String
                               }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 -- directory stuff ends here
 
+-- transaction stuff starts here
+-- this data type is upload variation for tServer
+data FileTransaction = FileTransaction { tID :: String
+                                       , fileRef :: FileRef
+                                       , fileContents :: String
+                                       }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
+-- this data type is stored on transaction server
+data Transaction = Transaction { id :: String
+                               , modifications :: [FileRef]
+                               }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+-- transaction stuff ends here
+
+
 deriving instance FromBSON [String]
 deriving instance ToBSON   [String]
 
-data StrWrap = StrWrap { line :: String
-                       } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+deriving instance FromBSON [FileRef]
+deriving instance ToBSON   [FileRef]
 
 -- | We will also define a simple data type for returning data from a REST call, again with nothing special or
 -- particular in the response, but instead merely as a demonstration.
@@ -129,7 +143,8 @@ type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON
           :<|> "unlock"                 :> ReqBody '[JSON] String :> Post '[JSON] Bool
           :<|> "locked"                 :> QueryParam "fName" String :> Get '[JSON] Bool
 
--- currently using Message type for files... (NOT TESTED!)
+-- currently using Message type for files...
+-- requests rooted through directory service first
 type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSON] [Message]
           :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
@@ -138,3 +153,11 @@ type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
          :<|> "lsFile"                  :> QueryParam "name" String :> Get '[JSON] [FsContents]
          :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
          :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
+
+-- client will specify transactions separate from regular upload/download
+-- upload still rooted through directory service first
+type TransAPI = "beginTransaction"      :> Get '[JSON] ResponseData -- tID
+           :<|> "tUpload"               :> ReqBody '[JSON] FileTransaction :> Post '[JSON] Bool
+           :<|> "commit"                :> ReqBody '[JSON] String :> Get '[JSON] Bool
+           :<|> "abort"                 :> ReqBody '[JSON] String :> Get '[JSON] Bool
+-- end of phase 1 (next add fs -> ts communication)

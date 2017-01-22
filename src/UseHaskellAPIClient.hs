@@ -25,6 +25,9 @@ restFileAPI = Proxy
 restDirAPI :: Proxy DirAPI
 restDirAPI = Proxy
 
+restTransAPI :: Proxy TransAPI
+restTransAPI = Proxy
+
 -- | The function type of the interface here.
 -- Each function matches one of the endpoints in type API from UseHaskellAPI.hs
 
@@ -48,6 +51,11 @@ lsDir :: ClientM [FsContents]
 lsFile :: Maybe String -> ClientM [FsContents]
 fileQuery :: Message -> ClientM [FileRef]
 mapFile :: Message -> ClientM [FileRef]
+-- transaction stuff here (phase 1 client to transaction server)
+beginTransaction :: ClientM ResponseData
+tUpload :: FileTransaction -> ClientM Bool
+commit :: String -> ClientM Bool
+abort :: String -> ClientM Bool
 
 -- | The following provides the implementations of these types
 -- Note that the order of the functions must match the endpoints in the type API from UseHaskell.hs
@@ -56,3 +64,4 @@ mapFile :: Message -> ClientM [FileRef]
 (lock :<|> unlock :<|> locked) = client restLockAPI
 (download :<|> upload) = client restFileAPI
 (lsDir :<|> lsFile :<|> fileQuery :<|> mapFile) = client restDirAPI
+(beginTransaction :<|> tUpload :<|> commit :<|> abort) = client restTransAPI
