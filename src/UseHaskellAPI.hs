@@ -95,15 +95,18 @@ data FsContents = FsContents  { dirName :: String
 -- directory stuff ends here
 
 -- transaction stuff starts here
+data Modification = Modification { fileRef :: FileRef
+                                 , fileContents :: String
+                                 }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
 -- this data type is upload variation for tServer
 data FileTransaction = FileTransaction { tID :: String
-                                       , fileRef :: FileRef
-                                       , fileContents :: String
+                                       , modification :: Modification
                                        }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 -- this data type is stored on transaction server
 data Transaction = Transaction { id :: String
-                               , modifications :: [FileRef]
+                               , modifications :: [Modification]
                                }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 -- transaction stuff ends here
 
@@ -111,8 +114,8 @@ data Transaction = Transaction { id :: String
 deriving instance FromBSON [String]
 deriving instance ToBSON   [String]
 
-deriving instance FromBSON [FileRef]
-deriving instance ToBSON   [FileRef]
+deriving instance FromBSON [Modification]
+deriving instance ToBSON   [Modification]
 
 -- | We will also define a simple data type for returning data from a REST call, again with nothing special or
 -- particular in the response, but instead merely as a demonstration.
