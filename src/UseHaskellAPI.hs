@@ -107,6 +107,7 @@ data FileTransaction = FileTransaction { tID :: String
 -- this data type is stored on transaction server
 data Transaction = Transaction { id :: String
                                , modifications :: [Modification]
+                               , readyStates :: [String]
                                }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 -- transaction stuff ends here
 
@@ -117,22 +118,11 @@ deriving instance ToBSON   [String]
 deriving instance FromBSON [Modification]
 deriving instance ToBSON   [Modification]
 
--- | We will also define a simple data type for returning data from a REST call, again with nothing special or
--- particular in the response, but instead merely as a demonstration.
-
+-- | We will also define a simple data type for returning data from a REST call.
 data ResponseData = ResponseData { response :: String
                                  } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
 
--- | Next we will define the API for the REST service. This is defined as a 'type' using a special syntax from the
--- Servant Library. A REST endpoint is defined by chaining together a series of elements in the format `A :> B :> C`. A
--- set of rest endpoints are chained in the format `X :<|> Y :<|> Z`. We define a set of endpoints to demonstrate
--- functionality as described int he README.md file below.
---
--- Note in the API below that we can mix GET and Post methods. The type of call is determined by the last element in the
--- :> chain. If the method is Get, then the set of QueryParams determine the attributes of the Get call. If the method
--- is Post, then there will be a single ReqBody element that defines the type being transmitted. The return type for
--- each method is noted in the last element in the :> chain.
-
+-- | Next we will define the API for the REST service.
 type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSON] ResponseData
       :<|> "getREADME"                  :> Get '[JSON] ResponseData
       :<|> "storeMessage"               :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
@@ -163,4 +153,5 @@ type TransAPI = "beginTransaction"      :> Get '[JSON] ResponseData -- tID
            :<|> "tUpload"               :> ReqBody '[JSON] FileTransaction :> Post '[JSON] Bool
            :<|> "commit"                :> ReqBody '[JSON] String :> Get '[JSON] Bool
            :<|> "abort"                 :> ReqBody '[JSON] String :> Get '[JSON] Bool
--- end of phase 1 (next add fs -> ts communication)
+           :<|> "readyCommit"           :> ReqBody '[JSON] Message :> Get '[JSON] Bool -- tid ++ fpath?
+           :<|> "confirmCommit"         :> ReqBody '[JSON] Message :> Get '[JSON] Bool-- tid ++ fpath?

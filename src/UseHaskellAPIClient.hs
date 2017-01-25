@@ -56,6 +56,9 @@ beginTransaction :: ClientM ResponseData
 tUpload :: FileTransaction -> ClientM Bool
 commit :: String -> ClientM Bool
 abort :: String -> ClientM Bool
+readyCommit :: Message -> ClientM Bool
+confirmCommit :: Message -> ClientM Bool
+
 
 -- | The following provides the implementations of these types
 -- Note that the order of the functions must match the endpoints in the type API from UseHaskell.hs
@@ -64,4 +67,4 @@ abort :: String -> ClientM Bool
 (lock :<|> unlock :<|> locked) = client restLockAPI
 (download :<|> upload) = client restFileAPI
 (lsDir :<|> lsFile :<|> fileQuery :<|> mapFile) = client restDirAPI
-(beginTransaction :<|> tUpload :<|> commit :<|> abort) = client restTransAPI
+(beginTransaction :<|> tUpload :<|> commit :<|> abort :<|> readyCommit :<|> confirmCommit) = client restTransAPI
