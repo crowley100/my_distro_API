@@ -21,6 +21,8 @@ import           Codec.Crypto.RSA
 import qualified Data.ByteString.Char8        as BS
 import           RSAhelpers
 
+-- communication helper
+
 -- sharedCrypto functions
 -- appends null ('\0') characters until multiple of 16
 aesPad :: String -> String
@@ -58,6 +60,10 @@ toResponseData msg@(PubKeyInfo strKey strN strE)=((ResponseData $ strKey):(Respo
 data Message = Message { name    :: String
                        , message :: String
                        } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
+data CurrentTrans = CurrentTrans { tOwner  :: String
+                                 , myTID :: String
+                                 } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 -- auth stuff
 data Login = Login { userName :: String

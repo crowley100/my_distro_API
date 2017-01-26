@@ -44,6 +44,16 @@ import           System.Log.Logger
 
 -- Helper functions...
 
+-- communcication helper for services to talk to each other
+-- currently, services run on the same hardcoded host.
+-- will expand on this to have a function fetch the current ip address
+mydoCall f p = (SC.runClientM f =<< env p)
+
+env :: Int -> IO SC.ClientEnv
+env p = do
+     manager <- newManager defaultManagerSettings
+     return (SC.ClientEnv manager (SC.BaseUrl SC.Http "10.6.91.168" p ""))
+
 --
 sharedSeed = "ourSecret"
 
