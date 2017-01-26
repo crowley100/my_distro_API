@@ -6,6 +6,7 @@
 {-# LANGUAGE StandaloneDeriving   #-}
 {-# LANGUAGE TypeOperators        #-}
 {-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE FlexibleContexts     #-}
 
 module UseHaskellAPI where
 
@@ -20,8 +21,25 @@ import           Crypto.Cipher.AES
 import           Codec.Crypto.RSA
 import qualified Data.ByteString.Char8        as BS
 import           RSAhelpers
+import           Database.MongoDB
 
 -- communication helper
+
+-- MongoDB helper (for services and client)
+-- | helper method to ensure we force extraction of all results
+-- note how it is defined recursively - meaning that draincursor' calls itself.
+-- the purpose is to iterate through all documents returned if the connection is
+-- returning the documents in batch mode, meaning in batches of retruned results with more
+-- to come on each call. The function recurses until there are no results left, building an
+-- array of returned [Document]
+drainCursor :: Cursor -> Action IO [Document]
+drainCursor cur = drainCursor' cur []
+  where
+    drainCursor' cur res  = do
+      batch <- nextBatch cur
+      if null batch
+        then return res
+        else drainCursor' cur (res ++ batch)
 
 -- sharedCrypto functions
 -- appends null ('\0') characters until multiple of 16

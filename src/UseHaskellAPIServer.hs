@@ -104,21 +104,6 @@ withMongoDbConnection act  = do
   close pipe
   return ret
 
--- | helper method to ensure we force extraction of all results
--- note how it is defined recursively - meaning that draincursor' calls itself.
--- the purpose is to iterate through all documents returned if the connection is
--- returning the documents in batch mode, meaning in batches of retruned results with more
--- to come on each call. The function recurses until there are no results left, building an
--- array of returned [Document]
-drainCursor :: Cursor -> Action IO [Document]
-drainCursor cur = drainCursor' cur []
-  where
-    drainCursor' cur res  = do
-      batch <- nextBatch cur
-      if null batch
-        then return res
-        else drainCursor' cur (res ++ batch)
-
 -- | Environment variable functions, that return the environment variable if set, or
 -- default values if not set.
 
