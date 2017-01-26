@@ -105,7 +105,7 @@ data FileTransaction = FileTransaction { tID :: String
                                        }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 -- this data type is stored on transaction server
-data Transaction = Transaction { id :: String
+data Transaction = Transaction { transID :: String
                                , modifications :: [Modification]
                                , readyStates :: [String]
                                }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
