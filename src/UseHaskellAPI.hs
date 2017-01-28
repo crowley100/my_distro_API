@@ -133,6 +133,11 @@ data Transaction = Transaction { transID :: String
                                , modifications :: [Modification]
                                , readyStates :: [String]
                                }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
+data ShadowInfo = ShadowInfo { trID :: String
+                             , fileName :: String
+                             , contents :: String
+                             }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 -- transaction stuff ends here
 
 
@@ -164,8 +169,8 @@ type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON
 -- requests rooted through directory service first
 type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSON] [Message]
           :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
-          :<|> "updateShadowDB"         :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
-          :<|> "pushTransaction"        :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
+          :<|> "updateShadowDB"         :> ReqBody '[JSON] ShadowInfo  :> Post '[JSON] Bool
+          :<|> "pushTransaction"        :> ReqBody '[JSON] String  :> Post '[JSON] Bool
 
 type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
          :<|> "lsFile"                  :> QueryParam "name" String :> Get '[JSON] [FsContents]
