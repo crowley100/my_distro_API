@@ -46,6 +46,8 @@ locked :: Maybe String -> ClientM Bool
 -- file service stuff here
 download :: Maybe String -> ClientM [Message]
 upload :: Message -> ClientM Bool
+updateShadowDB :: Message -> ClientM Bool
+pushTransaction :: Message -> ClientM Bool
 -- directory service stuff here
 lsDir :: ClientM [FsContents]
 lsFile :: Maybe String -> ClientM [FsContents]
@@ -65,6 +67,6 @@ confirmCommit :: Message -> ClientM Bool
 
 (loadEnvVars :<|> getREADME :<|> storeMessage :<|> loadPublicKey :<|> logIn :<|> signUp :<|> searchMessage :<|> performRestCall) = client restAPI
 (lock :<|> unlock :<|> locked) = client restLockAPI
-(download :<|> upload) = client restFileAPI
+(download :<|> upload :<|> updateShadowDB :<|> pushTransaction) = client restFileAPI
 (lsDir :<|> lsFile :<|> fileQuery :<|> mapFile) = client restDirAPI
 (beginTransaction :<|> tUpload :<|> commit :<|> abort :<|> readyCommit :<|> confirmCommit) = client restTransAPI

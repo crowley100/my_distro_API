@@ -160,12 +160,13 @@ type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON
           :<|> "unlock"                 :> ReqBody '[JSON] String :> Post '[JSON] Bool
           :<|> "locked"                 :> QueryParam "fName" String :> Get '[JSON] Bool
 
--- currently using Message type for files...
+-- using Message type for files
 -- requests rooted through directory service first
 type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSON] [Message]
           :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
+          :<|> "updateShadowDB"         :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
+          :<|> "pushTransaction"        :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
--- execute these commands in app as part of upload/download
 type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
          :<|> "lsFile"                  :> QueryParam "name" String :> Get '[JSON] [FsContents]
          :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
