@@ -131,7 +131,7 @@ data Modification = Modification { fileRef :: FileRef
 -- this data type is upload variation for tServer
 data FileTransaction = FileTransaction { tID :: String
                                        , modification :: Modification
-                                       }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+                                       }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 -- this data type is stored on transaction server
 data Transaction = Transaction { transID :: String
@@ -141,7 +141,7 @@ data Transaction = Transaction { transID :: String
 
 data Shadow = Shadow { fTID :: String
                      , file :: Message
-                     }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+                     }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 data ShadowInfo = ShadowInfo { trID :: String
                              , files :: [Message]
