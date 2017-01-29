@@ -47,7 +47,7 @@ import           System.Log.Logger
 -- communcication helper for services to talk to each other
 -- currently, services run on the same hardcoded host.
 -- will expand on this to have a function fetch the current ip address
-mydoCall f p = (SC.runClientM f =<< env p)
+servDoCall f p = (SC.runClientM f =<< env p)
 
 env :: Int -> IO SC.ClientEnv
 env p = do
