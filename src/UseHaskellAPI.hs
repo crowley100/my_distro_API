@@ -22,6 +22,11 @@ import           Codec.Crypto.RSA
 import qualified Data.ByteString.Char8        as BS
 import           RSAhelpers
 import           Database.MongoDB
+import           Servant
+import qualified Servant.API                  as SC
+import qualified Servant.Client               as SC
+import           Network.HTTP.Client          (defaultManagerSettings,newManager)
+
 
 -- communication helper
 
@@ -155,6 +160,39 @@ deriving instance ToBSON   [Modification]
 -- | We will also define a simple data type for returning data from a REST call.
 data ResponseData = ResponseData { response :: String
                                  } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
+
+-- Service information begins --
+defaultHost = "10.6.80.162" -- temporary ip to work with tcd proxy
+
+servDoCall f p = (SC.runClientM f =<< servEnv p)
+
+servEnv :: Int -> IO SC.ClientEnv
+servEnv p = do
+  man <- newManager defaultManagerSettings
+  return (SC.ClientEnv man (SC.BaseUrl SC.Http defaultHost p ""))
+
+-- possibly convert ports to strings...
+fs1IP = defaultHost
+fs2IP = defaultHost
+fs3IP = defaultHost
+
+fs1Port = 8081
+fs2Port = 8082
+fs3Port = 8083
+
+authIP = defaultHost
+authPort = 8001
+
+dirIP = defaultHost
+dirPort = 8000
+
+transIP = defaultHost
+transPort = 8080
+
+lockIP = defaultHost
+lockPort = 8002
+-- Service information ends --
+
 
 -- | Next we will define the API for the REST service.
 type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSON] ResponseData
