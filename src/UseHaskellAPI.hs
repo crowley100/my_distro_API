@@ -176,21 +176,21 @@ fs1IP = defaultHost
 fs2IP = defaultHost
 fs3IP = defaultHost
 
-fs1Port = 8081
-fs2Port = 8082
-fs3Port = 8083
+fs1Port = 8081 :: Int
+fs2Port = 8082 :: Int
+fs3Port = 8083 :: Int
 
 authIP = defaultHost
-authPort = 8001
+authPort = 8001 :: Int
 
 dirIP = defaultHost
-dirPort = 8000
+dirPort = 8000 :: Int
 
 transIP = defaultHost
-transPort = 8080
+transPort = 8080 :: Int
 
 lockIP = defaultHost
-lockPort = 8002
+lockPort = 8002 :: Int
 -- Service information ends --
 
 
