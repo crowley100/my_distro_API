@@ -77,7 +77,7 @@ toResponseData msg@(PubKeyInfo strKey strN strE)=((ResponseData $ strKey):(Respo
 -- generic message
 data Message = Message { name    :: String
                        , message :: String
-                       } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+                       } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 data CurrentTrans = CurrentTrans { tOwner  :: String
                                  , myTID :: String
@@ -134,12 +134,17 @@ data Transaction = Transaction { transID :: String
                                , readyStates :: [String]
                                }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
+data Shadow = Shadow { fTID :: String
+                     , file :: Message
+                     }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
 data ShadowInfo = ShadowInfo { trID :: String
-                             , fileName :: String
-                             , contents :: String
+                             , files :: [Message]
                              }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 -- transaction stuff ends here
 
+deriving instance FromBSON [Message]
+deriving instance ToBSON   [Message]
 
 deriving instance FromBSON [String]
 deriving instance ToBSON   [String]
@@ -169,7 +174,7 @@ type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON
 -- requests rooted through directory service first
 type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSON] [Message]
           :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
-          :<|> "updateShadowDB"         :> ReqBody '[JSON] ShadowInfo  :> Post '[JSON] Bool
+          :<|> "updateShadowDB"         :> ReqBody '[JSON] Shadow  :> Post '[JSON] Bool
           :<|> "pushTransaction"        :> ReqBody '[JSON] String  :> Post '[JSON] Bool
 
 type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]

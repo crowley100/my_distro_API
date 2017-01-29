@@ -46,7 +46,7 @@ locked :: Maybe String -> ClientM Bool
 -- file service stuff here
 download :: Maybe String -> ClientM [Message]
 upload :: Message -> ClientM Bool
-updateShadowDB :: ShadowInfo -> ClientM Bool
+updateShadowDB :: Shadow -> ClientM Bool
 pushTransaction :: String -> ClientM Bool
 -- directory service stuff here
 lsDir :: ClientM [FsContents]
