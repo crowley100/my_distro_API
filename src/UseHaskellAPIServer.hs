@@ -116,6 +116,13 @@ withMongoDbConnection act  = do
 -- | Environment variable functions, that return the environment variable if set, or
 -- default values if not set.
 
+-- | The IP address of a particular file server
+fsIP :: IO String
+fsIP = defEnv "FS_IP" id "localhost" True
+
+fsPort :: IO String
+fsPort = defEnv "FS_PORT" id "8080" True
+
 -- | The IP address of the mongoDB database that devnostics-rest uses to store and access data
 mongoDbIp :: IO String
 mongoDbIp = defEnv "MONGODB_IP" id "database" True
