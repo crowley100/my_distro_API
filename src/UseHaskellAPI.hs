@@ -79,10 +79,16 @@ myDecryptAES seed text = do
 toResponseData :: PubKeyInfo -> [ResponseData]
 toResponseData msg@(PubKeyInfo strKey strN strE)=((ResponseData $ strKey):(ResponseData $ strN):(ResponseData $ strE):[])
 
--- generic message
+-- generic messages
 data Message = Message { name    :: String
                        , message :: String
                        } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
+data Message4 = Message4 { one    :: String
+                         , two    :: String
+                         , three  :: String
+                         , four   :: String
+                         } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 data CurrentTrans = CurrentTrans { tOwner  :: String
                                  , myTID :: String
@@ -102,20 +108,25 @@ deriving instance FromBSON Bool
 deriving instance ToBSON   Bool
 
 -- directory stuff starts here
-data FileRef = FileRef { filePath :: String
-                       , fID :: String
-                       , fTimeStamp :: String
-                       , fServerIP :: String
+data FileRef = FileRef { filePath    :: String
+                       , fID         :: String
+                       , fTimeStamp  :: String
+                       , fServerIP   :: String
                        , fServerPort :: String
                        }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
-data FsInfo = FsInfo  { myName :: String
-                      , ip :: String
-                      , port :: String
+-- file server data that directory server uses to manage replication process
+data FsAttributes = FsAttributes { primary :: Bool
+                                 , ip      :: String
+                                 , port    :: String
+                                 }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
+data FsInfo = FsInfo  { myName  :: String
+                      , servers :: [FsAttributes]
                       }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 data FileID = FileID  { directory :: String
-                      , idNum :: String
+                      , idNum     :: String
                       }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 data FsContents = FsContents  { dirName :: String
@@ -124,26 +135,26 @@ data FsContents = FsContents  { dirName :: String
 -- directory stuff ends here
 
 -- transaction stuff starts here
-data Modification = Modification { fileRef :: FileRef
+data Modification = Modification { fileRef      :: FileRef
                                  , fileContents :: String
                                  }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 -- this data type is upload variation for tServer
-data FileTransaction = FileTransaction { tID :: String
+data FileTransaction = FileTransaction { tID          :: String
                                        , modification :: Modification
                                        }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 -- this data type is stored on transaction server
-data Transaction = Transaction { transID :: String
+data Transaction = Transaction { transID       :: String
                                , modifications :: [Modification]
-                               , readyStates :: [String]
+                               , readyStates   :: [String]
                                }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 data Shadow = Shadow { fTID :: String
                      , file :: Message
                      }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
-data ShadowInfo = ShadowInfo { trID :: String
+data ShadowInfo = ShadowInfo { trID  :: String
                              , files :: [Message]
                              }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 -- transaction stuff ends here
@@ -156,6 +167,9 @@ deriving instance ToBSON   [String]
 
 deriving instance FromBSON [Modification]
 deriving instance ToBSON   [Modification]
+
+deriving instance FromBSON [FsAttributes]
+deriving instance ToBSON   [FsAttributes]
 
 -- | We will also define a simple data type for returning data from a REST call.
 data ResponseData = ResponseData { response :: String
@@ -219,6 +233,9 @@ type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
          :<|> "lsFile"                  :> QueryParam "name" String :> Get '[JSON] [FsContents]
          :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
          :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
+
+type ReplicationAPI = "ping"            :> ReqBody '[JSON] Message :> Post '[JSON] Bool -- Message sufficient?
+                 :<|> "registerFS"      :> ReqBody '[JSON] Message4 :> Post '[JSON] Bool
 
 -- client will specify transactions separate from regular upload/download
 -- upload still rooted through directory service first

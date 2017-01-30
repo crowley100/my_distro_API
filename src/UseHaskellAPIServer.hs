@@ -41,6 +41,16 @@ import           System.Log.Handler           (setFormatter)
 import           System.Log.Handler.Simple
 import           System.Log.Handler.Syslog
 import           System.Log.Logger
+import           UseHaskellAPI
+
+-- Replication API...
+restReplicationAPI :: Proxy ReplicationAPI
+restReplicationAPI = Proxy
+
+ping :: Message -> SC.ClientM Bool
+registerFS :: Message4 -> SC.ClientM Bool
+
+(ping :<|> registerFS) = SC.client restReplicationAPI
 
 -- Helper functions...
 
