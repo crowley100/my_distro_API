@@ -27,9 +27,6 @@ import qualified Servant.API                  as SC
 import qualified Servant.Client               as SC
 import           Network.HTTP.Client          (defaultManagerSettings,newManager)
 
-
--- communication helper
-
 -- MongoDB helper (for services and client)
 -- | helper method to ensure we force extraction of all results
 -- note how it is defined recursively - meaning that draincursor' calls itself.
@@ -84,10 +81,9 @@ data Message = Message { name    :: String
                        , message :: String
                        } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
-data Message4 = Message4 { one    :: String
+data Message3 = Message3 { one    :: String
                          , two    :: String
                          , three  :: String
-                         , four   :: String
                          } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 data CurrentTrans = CurrentTrans { tOwner  :: String
@@ -235,7 +231,7 @@ type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
          :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
 
 type ReplicationAPI = "ping"            :> ReqBody '[JSON] Message :> Post '[JSON] Bool -- Message sufficient?
-                 :<|> "registerFS"      :> ReqBody '[JSON] Message4 :> Post '[JSON] Bool
+                 :<|> "registerFS"      :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool
 
 -- client will specify transactions separate from regular upload/download
 -- upload still rooted through directory service first

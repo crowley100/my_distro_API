@@ -48,7 +48,7 @@ restReplicationAPI :: Proxy ReplicationAPI
 restReplicationAPI = Proxy
 
 ping :: Message -> SC.ClientM Bool
-registerFS :: Message4 -> SC.ClientM Bool
+registerFS :: Message3 -> SC.ClientM Bool
 
 (ping :<|> registerFS) = SC.client restReplicationAPI
 
@@ -116,7 +116,12 @@ withMongoDbConnection act  = do
 -- | Environment variable functions, that return the environment variable if set, or
 -- default values if not set.
 
--- | The IP address of a particular file server
+-- | File server attributes
+fsName :: IO String
+fsName = defEnv "FS_NAME" id "fs1" True
+
+-- retrieve replica status??
+
 fsIP :: IO String
 fsIP = defEnv "FS_IP" id "localhost" True
 
