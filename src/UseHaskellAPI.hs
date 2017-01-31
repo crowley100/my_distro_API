@@ -104,12 +104,17 @@ deriving instance FromBSON Bool
 deriving instance ToBSON   Bool
 
 -- directory stuff starts here
-data FileRef = FileRef { filePath    :: String
-                       , fID         :: String
-                       , fTimeStamp  :: String
-                       , fServerIP   :: String
-                       , fServerPort :: String
+data FileRef = FileRef { fp   :: String
+                       , fid  :: String
+                       , fts  :: String
                        }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
+data SendFileRef = SendFileRef { filePath    :: String
+                               , fID         :: String
+                               , fTimeStamp  :: String
+                               , fServerIP   :: String
+                               , fServerPort :: String
+                               }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 -- file server data that directory server uses to manage replication process
 data FsAttributes = FsAttributes { primary :: Bool
@@ -227,8 +232,8 @@ type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSO
 
 type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
          :<|> "lsFile"                  :> QueryParam "name" String :> Get '[JSON] [FsContents]
-         :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
-         :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [FileRef]
+         :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
+         :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
 
 type ReplicationAPI = "ping"            :> ReqBody '[JSON] Message :> Post '[JSON] Bool -- Message sufficient?
                  :<|> "registerFS"      :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool

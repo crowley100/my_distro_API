@@ -51,8 +51,8 @@ pushTransaction :: String -> ClientM Bool
 -- directory service stuff here
 lsDir :: ClientM [FsContents]
 lsFile :: Maybe String -> ClientM [FsContents]
-fileQuery :: Message -> ClientM [FileRef]
-mapFile :: Message -> ClientM [FileRef]
+fileQuery :: Message -> ClientM [SendFileRef]
+mapFile :: Message -> ClientM [SendFileRef]
 -- transaction stuff here (phase 1 client to transaction server)
 beginTransaction :: ClientM ResponseData
 tUpload :: FileTransaction -> ClientM Bool
