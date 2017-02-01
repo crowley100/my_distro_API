@@ -122,8 +122,9 @@ data FsAttributes = FsAttributes { primary :: Bool
                                  , port    :: String
                                  }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
-data FsInfo = FsInfo  { myName  :: String
-                      , servers :: [FsAttributes]
+data FsInfo = FsInfo  { myName        :: String
+                      , primaryServer :: Maybe FsAttributes
+                      , servers       :: [FsAttributes]
                       }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 data FileID = FileID  { directory :: String
@@ -171,6 +172,9 @@ deriving instance ToBSON   [Modification]
 
 deriving instance FromBSON [FsAttributes]
 deriving instance ToBSON   [FsAttributes]
+
+deriving instance FromBSON (Maybe FsAttributes)
+deriving instance ToBSON   (Maybe FsAttributes)
 
 -- | We will also define a simple data type for returning data from a REST call.
 data ResponseData = ResponseData { response :: String
