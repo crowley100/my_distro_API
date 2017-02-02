@@ -26,6 +26,8 @@ import           Servant
 import qualified Servant.API                  as SC
 import qualified Servant.Client               as SC
 import           Network.HTTP.Client          (defaultManagerSettings,newManager)
+import           Data.Time.Clock
+import           Data.Time.Format             
 
 -- MongoDB helper (for services and client)
 -- | helper method to ensure we force extraction of all results
@@ -42,6 +44,10 @@ drainCursor cur = drainCursor' cur []
       if null batch
         then return res
         else drainCursor' cur (res ++ batch)
+
+-- timestamp comparison for client and services
+cmpTime :: String -> String -> Double
+cmpTime time1 time2 = realToFrac (diffUTCTime (read time1) (read time2)) :: Double
 
 -- sharedCrypto functions
 -- appends null ('\0') characters until multiple of 16
