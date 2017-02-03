@@ -49,8 +49,9 @@ restReplicationAPI = Proxy
 
 ping :: Message -> SC.ClientM Bool
 registerFS :: Message3 -> SC.ClientM Bool
+getPropagationInfo :: Message -> SC.ClientM [FsAttributes]
 
-(ping :<|> registerFS) = SC.client restReplicationAPI
+(ping :<|> registerFS :<|> getPropagationInfo) = SC.client restReplicationAPI
 
 -- Helper functions...
 

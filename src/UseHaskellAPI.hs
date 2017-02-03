@@ -245,8 +245,9 @@ type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
          :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
          :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
 
-type ReplicationAPI = "ping"            :> ReqBody '[JSON] Message :> Post '[JSON] Bool -- Message sufficient?
-                 :<|> "registerFS"      :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool
+type ReplicationAPI = "ping"               :> ReqBody '[JSON] Message :> Post '[JSON] Bool -- Message sufficient?
+                 :<|> "registerFS"         :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool
+                 :<|> "getPropagationInfo" :> ReqBody '[JSON] Message :> Post '[JSON] [FsAttributes]
 
 -- client will specify transactions separate from regular upload/download
 -- upload still rooted through directory service first
