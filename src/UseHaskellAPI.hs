@@ -123,8 +123,7 @@ data SendFileRef = SendFileRef { filePath    :: String
                                }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 -- file server data that directory server uses to manage replication process
-data FsAttributes = FsAttributes { primary :: Bool
-                                 , ip      :: String
+data FsAttributes = FsAttributes { ip      :: String
                                  , port    :: String
                                  }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
