@@ -27,7 +27,7 @@ import qualified Servant.API                  as SC
 import qualified Servant.Client               as SC
 import           Network.HTTP.Client          (defaultManagerSettings,newManager)
 import           Data.Time.Clock
-import           Data.Time.Format             
+import           Data.Time.Format
 
 -- MongoDB helper (for services and client)
 -- | helper method to ensure we force extraction of all results
@@ -239,6 +239,7 @@ type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSO
           :<|> "upload"                 :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
           :<|> "updateShadowDB"         :> ReqBody '[JSON] Shadow  :> Post '[JSON] Bool
           :<|> "pushTransaction"        :> ReqBody '[JSON] String  :> Post '[JSON] Bool
+          :<|> "replicateFile"          :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
 type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
          :<|> "lsFile"                  :> QueryParam "name" String :> Get '[JSON] [FsContents]

@@ -48,6 +48,7 @@ download :: Maybe String -> ClientM [Message]
 upload :: Message -> ClientM Bool
 updateShadowDB :: Shadow -> ClientM Bool
 pushTransaction :: String -> ClientM Bool
+replicateFile :: Message -> ClientM Bool
 -- directory service stuff here
 lsDir :: ClientM [FsContents]
 lsFile :: Maybe String -> ClientM [FsContents]
@@ -67,6 +68,6 @@ confirmCommit :: Message -> ClientM Bool
 
 (loadEnvVars :<|> getREADME :<|> storeMessage :<|> loadPublicKey :<|> logIn :<|> signUp :<|> searchMessage :<|> performRestCall) = client restAPI
 (lock :<|> unlock :<|> locked) = client restLockAPI
-(download :<|> upload :<|> updateShadowDB :<|> pushTransaction) = client restFileAPI
+(download :<|> upload :<|> updateShadowDB :<|> pushTransaction :<|> replicateFile) = client restFileAPI
 (lsDir :<|> lsFile :<|> fileQuery :<|> mapFile) = client restDirAPI
 (beginTransaction :<|> tUpload :<|> commit :<|> abort :<|> readyCommit :<|> confirmCommit) = client restTransAPI
