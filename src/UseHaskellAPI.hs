@@ -120,9 +120,9 @@ data ShadowRef = ShadowRef { dTID :: String
                            , references :: [FileRef]
                            }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
-data ShadowFsContents = ShadowFsContents { dContentsTID :: String
-                                         , sContents :: [FsContents]
-                                         }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+data ShadowDirs = ShadowDirs { dTransID :: String
+                             , tDirs :: [String]
+                             }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 data SendFileRef = SendFileRef { filePath    :: String
                                , fID         :: String
