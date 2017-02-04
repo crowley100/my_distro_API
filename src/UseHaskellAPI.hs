@@ -115,6 +115,15 @@ data FileRef = FileRef { fp   :: String
                        , fts  :: String
                        }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
+-- transaction types for directory service
+data ShadowRef = ShadowRef { dTID :: String
+                           , references :: [FileRef]
+                           }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
+data ShadowFsContents = ShadowFsContents { dContentsTID :: String
+                                         , sContents :: [FsContents]
+                                         }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
 data SendFileRef = SendFileRef { filePath    :: String
                                , fID         :: String
                                , fTimeStamp  :: String
@@ -138,7 +147,7 @@ data FileID = FileID  { directory :: String
 
 data FsContents = FsContents  { dirName :: String
                               , fsFiles :: [String]
-                              }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+                              }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 -- directory stuff ends here
 
 -- transaction stuff starts here
@@ -177,6 +186,12 @@ deriving instance ToBSON   [Modification]
 
 deriving instance FromBSON [FsAttributes]
 deriving instance ToBSON   [FsAttributes]
+
+deriving instance FromBSON [FileRef]
+deriving instance ToBSON   [FileRef]
+
+deriving instance FromBSON [FsContents]
+deriving instance ToBSON   [FsContents]
 
 deriving instance FromBSON (Maybe FsAttributes)
 deriving instance ToBSON   (Maybe FsAttributes)
