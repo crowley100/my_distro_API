@@ -111,6 +111,7 @@ deriving instance ToBSON   Bool
 
 -- directory stuff starts here
 data FileRef = FileRef { fp   :: String
+                       , myd  :: String
                        , fid  :: String
                        , fts  :: String
                        }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
@@ -125,6 +126,7 @@ data ShadowDirs = ShadowDirs { dTransID :: String
                              }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 data SendFileRef = SendFileRef { filePath    :: String
+                               , myDirectory :: String
                                , fID         :: String
                                , fTimeStamp  :: String
                                , fServerIP   :: String
