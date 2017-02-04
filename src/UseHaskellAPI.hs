@@ -142,7 +142,7 @@ data FsContents = FsContents  { dirName :: String
 -- directory stuff ends here
 
 -- transaction stuff starts here
-data Modification = Modification { fileRef      :: FileRef
+data Modification = Modification { fileRef      :: SendFileRef
                                  , fileContents :: String
                                  }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
