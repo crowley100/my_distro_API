@@ -40,9 +40,9 @@ signUp :: Login -> ClientM ResponseData
 searchMessage :: Maybe String -> ClientM [Message]
 performRestCall :: Maybe String -> ClientM ResponseData
 -- lock stuff here
-lock :: String -> ClientM Bool
-unlock :: String -> ClientM Bool
-locked :: Maybe String -> ClientM Bool
+lock :: Message3 -> ClientM Bool
+unlock :: Message3 -> ClientM Bool
+locked :: Message -> ClientM Bool
 -- file service stuff here
 download :: Maybe String -> ClientM [Message]
 upload :: Message -> ClientM Bool

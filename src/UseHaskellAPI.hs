@@ -245,9 +245,9 @@ type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSO
       :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]
       :<|> "performRESTCall"            :> QueryParam "filter" String  :> Get '[JSON] ResponseData
 
-type LockAPI = "lock"                   :> ReqBody '[JSON] String :> Post '[JSON] Bool
-          :<|> "unlock"                 :> ReqBody '[JSON] String :> Post '[JSON] Bool
-          :<|> "locked"                 :> QueryParam "fName" String :> Get '[JSON] Bool
+type LockAPI = "lock"                   :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool
+          :<|> "unlock"                 :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool
+          :<|> "locked"                 :> ReqBody '[JSON] Message :> Get '[JSON] Bool
 
 -- using Message type for files
 -- requests rooted through directory service first
