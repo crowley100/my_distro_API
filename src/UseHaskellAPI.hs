@@ -237,14 +237,9 @@ lockPort = 8002 :: Int
 
 
 -- | Next we will define the API for the REST service.
-type API = "load_environment_variables" :> QueryParam "name" String :> Get '[JSON] ResponseData
-      :<|> "getREADME"                  :> Get '[JSON] ResponseData
-      :<|> "storeMessage"               :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
-      :<|> "loadPublicKey"              :> Get '[JSON] [ResponseData]
-      :<|> "logIn"                      :> ReqBody '[JSON] Login  :> Post '[JSON] [ResponseData]
-      :<|> "signUp"                     :> ReqBody '[JSON] Login  :> Post '[JSON] ResponseData
-      :<|> "searchMessage"              :> QueryParam "name" String :> Get '[JSON] [Message]
-      :<|> "performRESTCall"            :> QueryParam "filter" String  :> Get '[JSON] ResponseData
+type AuthAPI = "signUp"                     :> ReqBody '[JSON] Login  :> Post '[JSON] ResponseData
+          :<|> "logIn"                      :> ReqBody '[JSON] Login  :> Post '[JSON] [ResponseData]
+          :<|> "loadPublicKey"              :> Get '[JSON] [ResponseData]
 
 type LockAPI = "lock"                   :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool
           :<|> "unlock"                 :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool

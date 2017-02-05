@@ -13,8 +13,8 @@ import           Servant.Client
 import           UseHaskellAPI
 
 
-restAPI :: Proxy API
-restAPI = Proxy
+restAuthAPI :: Proxy AuthAPI
+restAuthAPI = Proxy
 
 restLockAPI :: Proxy LockAPI
 restLockAPI = Proxy
@@ -30,15 +30,10 @@ restTransAPI = Proxy
 
 -- | The function type of the interface here.
 -- Each function matches one of the endpoints in type API from UseHaskellAPI.hs
-
-loadEnvVars :: Maybe String -> ClientM ResponseData
-getREADME :: ClientM ResponseData
-storeMessage :: Message -> ClientM Bool
-loadPublicKey :: ClientM [ResponseData]
-logIn :: Login -> ClientM [ResponseData]
 signUp :: Login -> ClientM ResponseData
-searchMessage :: Maybe String -> ClientM [Message]
-performRestCall :: Maybe String -> ClientM ResponseData
+logIn :: Login -> ClientM [ResponseData]
+loadPublicKey :: ClientM [ResponseData]
+
 -- lock stuff here
 lock :: Message3 -> ClientM Bool
 unlock :: Message3 -> ClientM Bool
@@ -67,7 +62,7 @@ confirmCommit :: Message -> ClientM Bool
 -- | The following provides the implementations of these types
 -- Note that the order of the functions must match the endpoints in the type API from UseHaskell.hs
 
-(loadEnvVars :<|> getREADME :<|> storeMessage :<|> loadPublicKey :<|> logIn :<|> signUp :<|> searchMessage :<|> performRestCall) = client restAPI
+(signUp :<|> logIn :<|> loadPublicKey) = client restAuthAPI
 (lock :<|> unlock :<|> locked) = client restLockAPI
 (download :<|> upload :<|> updateShadowDB :<|> pushTransaction :<|> replicateFile) = client restFileAPI
 (lsDir :<|> lsFile :<|> fileQuery :<|> mapFile :<|> dirShadowing) = client restDirAPI
