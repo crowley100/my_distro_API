@@ -104,6 +104,7 @@ data Login = Login { userName :: String
 -- locking stuff
 data Lock = Lock { fName :: String
                  , state :: Bool
+                 , owner :: String
                  }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 deriving instance FromBSON Bool
