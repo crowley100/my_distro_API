@@ -43,15 +43,17 @@ import           System.Log.Handler.Syslog
 import           System.Log.Logger
 import           UseHaskellAPI
 
--- Replication API...
-restReplicationAPI :: Proxy ReplicationAPI
-restReplicationAPI = Proxy
+-- Inter server communication API...
+restInterServerAPI :: Proxy InterServerAPI
+restInterServerAPI = Proxy
 
 ping :: Message -> SC.ClientM Bool
 registerFS :: Message3 -> SC.ClientM Bool
 getPropagationInfo :: Message -> SC.ClientM [FsAttributes]
+dirCommitShadow :: Message -> SC.ClientM Bool
+dirAbortShadow :: Message -> SC.ClientM Bool
 
-(ping :<|> registerFS :<|> getPropagationInfo) = SC.client restReplicationAPI
+(ping :<|> registerFS :<|> getPropagationInfo :<|> dirCommitShadow :<|> dirAbortShadow) = SC.client restInterServerAPI
 
 -- Helper functions...
 

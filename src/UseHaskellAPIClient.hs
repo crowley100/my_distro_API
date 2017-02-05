@@ -54,6 +54,7 @@ lsDir :: ClientM [FsContents]
 lsFile :: Maybe String -> ClientM [FsContents]
 fileQuery :: Message -> ClientM [SendFileRef]
 mapFile :: Message -> ClientM [SendFileRef]
+dirShadowing :: Message3 -> ClientM [SendFileRef]
 -- transaction stuff here (phase 1 client to transaction server)
 beginTransaction :: ClientM ResponseData
 tUpload :: FileTransaction -> ClientM Bool
@@ -69,5 +70,5 @@ confirmCommit :: Message -> ClientM Bool
 (loadEnvVars :<|> getREADME :<|> storeMessage :<|> loadPublicKey :<|> logIn :<|> signUp :<|> searchMessage :<|> performRestCall) = client restAPI
 (lock :<|> unlock :<|> locked) = client restLockAPI
 (download :<|> upload :<|> updateShadowDB :<|> pushTransaction :<|> replicateFile) = client restFileAPI
-(lsDir :<|> lsFile :<|> fileQuery :<|> mapFile) = client restDirAPI
+(lsDir :<|> lsFile :<|> fileQuery :<|> mapFile :<|> dirShadowing) = client restDirAPI
 (beginTransaction :<|> tUpload :<|> commit :<|> abort :<|> readyCommit :<|> confirmCommit) = client restTransAPI

@@ -261,10 +261,13 @@ type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
          :<|> "lsFile"                  :> QueryParam "name" String :> Get '[JSON] [FsContents]
          :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
          :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
+         :<|> "dirShadowing"            :> ReqBody '[JSON] Message3 :> Post '[JSON] [SendFileRef]
 
-type ReplicationAPI = "ping"               :> ReqBody '[JSON] Message :> Post '[JSON] Bool -- Message sufficient?
+type InterServerAPI = "ping"               :> ReqBody '[JSON] Message :> Post '[JSON] Bool -- Message sufficient?
                  :<|> "registerFS"         :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool
                  :<|> "getPropagationInfo" :> ReqBody '[JSON] Message :> Post '[JSON] [FsAttributes]
+                 :<|> "dirCommitShadow"     :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
+                 :<|> "dirAbortShadow"      :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
 -- client will specify transactions separate from regular upload/download
 -- upload still rooted through directory service first
