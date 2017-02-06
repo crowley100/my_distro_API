@@ -86,6 +86,7 @@ toResponseData msg@(PubKeyInfo strKey strN strE)=((ResponseData $ strKey):(Respo
 -- | Data type used to store user's credentials after login.
 data Details = Details { clientKey    :: String
                        , clientName   :: String
+                       , clientSesh   :: String
                        , clientTicket :: String
                        , clientExpiry :: String
                        } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
