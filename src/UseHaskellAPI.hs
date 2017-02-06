@@ -113,7 +113,7 @@ data Login = Login { userName :: String
                    } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
 -- locking stuff
-data Lock = Lock { fName :: String
+data Lock = Lock { fPath :: String
                  , state :: Bool
                  , owner :: String
                  }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
