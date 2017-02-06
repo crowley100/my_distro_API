@@ -82,16 +82,26 @@ myDecryptAES seed text = do
 toResponseData :: PubKeyInfo -> [ResponseData]
 toResponseData msg@(PubKeyInfo strKey strN strE)=((ResponseData $ strKey):(ResponseData $ strN):(ResponseData $ strE):[])
 
--- generic messages
+-- | System data types.
+-- | Data type used to store user's credentials after login.
+data Details = Details { clientKey    :: String
+                       , clientName   :: String
+                       , clientTicket :: String
+                       , clientExpiry :: String
+                       } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
+-- | Generic two element message.
 data Message = Message { name    :: String
                        , message :: String
                        } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
+-- | Generic three element message.
 data Message3 = Message3 { one    :: String
                          , two    :: String
                          , three  :: String
                          } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
+-- | Type to identify transaction owner.
 data CurrentTrans = CurrentTrans { tOwner  :: String
                                  , myTID :: String
                                  } deriving (Show, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
