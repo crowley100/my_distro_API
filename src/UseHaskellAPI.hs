@@ -180,6 +180,10 @@ data Transaction = Transaction { transID       :: String
                                , readyStates   :: [String]
                                }deriving (Show, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
+data TransLocks = TransLocks { tLocksID   :: String
+                             , tFilePaths :: [String]
+                             }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
+
 data Shadow = Shadow { fTID :: String
                      , file :: Message
                      }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
