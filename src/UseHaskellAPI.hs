@@ -276,7 +276,7 @@ type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
 
 type InterServerAPI = "ping"               :> ReqBody '[JSON] Message :> Post '[JSON] Bool -- Message sufficient?
                  :<|> "registerFS"         :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool
-                 :<|> "getPropagationInfo" :> ReqBody '[JSON] Message :> Post '[JSON] [FsAttributes]
+                 :<|> "getPropagationInfo" :> ReqBody '[JSON] Message :> Get '[JSON] [FsAttributes]
                  :<|> "dirCommitShadow"     :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
                  :<|> "dirAbortShadow"      :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
