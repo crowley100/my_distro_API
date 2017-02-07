@@ -219,7 +219,7 @@ data ResponseData = ResponseData { response :: String
                                  } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
 
 -- Service information begins --
-defaultHost = "10.3.5.155" -- temporary ip to work with tcd proxy
+defaultHost = "10.6.67.223" -- temporary ip to work with tcd proxy
 
 servDoCall f p = (SC.runClientM f =<< servEnv p)
 
