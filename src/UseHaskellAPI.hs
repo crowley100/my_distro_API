@@ -94,6 +94,10 @@ data Details = Details { clientKey    :: String
                        , clientExpiry :: String
                        } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
+-- | Generic one element message
+data StrWrap = StrWrap { aVal :: String
+                       } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
 -- | Generic two element message.
 data Message = Message { name    :: String
                        , message :: String
@@ -280,8 +284,8 @@ type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSO
           :<|> "pushTransaction"        :> ReqBody '[JSON] String  :> Post '[JSON] Bool
           :<|> "replicateFile"          :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
-type DirAPI = "lsDir"                   :> Get '[JSON] [FsContents]
-         :<|> "lsFile"                  :> QueryParam "name" String :> Get '[JSON] [FsContents]
+type DirAPI = "lsDir"                   :> ReqBody '[JSON] StrWrap :> Get '[JSON] [FsContents]
+         :<|> "lsFile"                  :> ReqBody '[JSON] Message :> Get '[JSON] [FsContents]
          :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
          :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
          :<|> "dirShadowing"            :> ReqBody '[JSON] Message3 :> Post '[JSON] [SendFileRef]
