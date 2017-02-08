@@ -228,7 +228,7 @@ defaultHost :: IO String
 defaultHost = do
   (_, Just hout, _, _) <- createProcess (proc "hostname" ["-I"]){ std_out = CreatePipe }
   getHost <- hGetContents hout
-  return $ head $ words $ getHost
+  return $ head $ words getHost
 
 servDoCall f p = (SC.runClientM f =<< servEnv p)
 
