@@ -236,6 +236,7 @@ servEnv :: Int -> IO SC.ClientEnv
 servEnv p = do
   man <- newManager defaultManagerSettings
   h <- defaultHost
+  putStrLn h
   return (SC.ClientEnv man (SC.BaseUrl SC.Http h p ""))
 
 -- possibly convert ports to strings...
