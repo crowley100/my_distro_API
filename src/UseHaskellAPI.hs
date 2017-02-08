@@ -28,6 +28,9 @@ import qualified Servant.Client               as SC
 import           Network.HTTP.Client          (defaultManagerSettings,newManager)
 import           Data.Time.Clock
 import           Data.Time.Format
+import           Data.List
+import           System.Process
+import           System.IO
 
 -- MongoDB helper (for services and client)
 -- | helper method to ensure we force extraction of all results
@@ -219,14 +222,21 @@ data ResponseData = ResponseData { response :: String
                                  } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
 
 -- Service information begins --
-defaultHost = "10.6.94.79" -- temporary ip to work with tcd proxy
+--defaultHost = "10.6.94.79" -- temporary ip to work with tcd proxy
+
+defaultHost :: IO String
+defaultHost = do
+  (_, Just hout, _, _) <- createProcess (proc "hostname" ["-I"]){ std_out = CreatePipe }
+  getHost <- hGetContents hout
+  return $ head $ words $ getHost
 
 servDoCall f p = (SC.runClientM f =<< servEnv p)
 
 servEnv :: Int -> IO SC.ClientEnv
 servEnv p = do
   man <- newManager defaultManagerSettings
-  return (SC.ClientEnv man (SC.BaseUrl SC.Http defaultHost p ""))
+  h <- defaultHost
+  return (SC.ClientEnv man (SC.BaseUrl SC.Http h p ""))
 
 -- possibly convert ports to strings...
 fs1IP = defaultHost
