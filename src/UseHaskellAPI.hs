@@ -284,7 +284,7 @@ type FileAPI = "download"               :> QueryParam "name" String :> Get '[JSO
           :<|> "pushTransaction"        :> ReqBody '[JSON] String  :> Post '[JSON] Bool
           :<|> "replicateFile"          :> ReqBody '[JSON] Message  :> Post '[JSON] Bool
 
-type DirAPI = "lsDir"                   :> ReqBody '[JSON] StrWrap :> Get '[JSON] [FsContents]
+type DirAPI = "lsDir"                   :> ReqBody '[JSON] StrWrap :> Get '[JSON] ResponseData
          :<|> "lsFile"                  :> ReqBody '[JSON] Message :> Get '[JSON] [FsContents]
          :<|> "fileQuery"               :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
          :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]

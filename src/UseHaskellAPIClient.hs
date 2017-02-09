@@ -45,7 +45,7 @@ updateShadowDB :: Shadow -> ClientM Bool
 pushTransaction :: String -> ClientM Bool
 replicateFile :: Message -> ClientM Bool
 -- directory service stuff here
-lsDir :: StrWrap -> ClientM [FsContents]
+lsDir :: StrWrap -> ClientM ResponseData
 lsFile :: Message -> ClientM [FsContents]
 fileQuery :: Message -> ClientM [SendFileRef]
 mapFile :: Message -> ClientM [SendFileRef]
