@@ -49,8 +49,8 @@ replicateFile :: Message -> ClientM Bool
 lsDir :: StrWrap -> ClientM ResponseData
 lsFile :: Message -> ClientM [FsContents]
 fileQuery :: Message3 -> ClientM [SendFileRef]
-mapFile :: Message -> ClientM [SendFileRef]
-dirShadowing :: Message3 -> ClientM [SendFileRef]
+mapFile :: Message3 -> ClientM [SendFileRef]
+dirShadowing :: Message4 -> ClientM [SendFileRef]
 -- transaction stuff here (phase 1 client to transaction server)
 beginTransaction :: ClientM ResponseData
 tUpload :: FileTransaction -> ClientM Bool

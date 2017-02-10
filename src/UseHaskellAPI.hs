@@ -149,8 +149,8 @@ type FileAPI = "download"               :> ReqBody '[JSON] Message :> Get '[JSON
 type DirAPI = "lsDir"                   :> ReqBody '[JSON] StrWrap :> Get '[JSON] ResponseData
          :<|> "lsFile"                  :> ReqBody '[JSON] Message :> Get '[JSON] [FsContents]
          :<|> "fileQuery"               :> ReqBody '[JSON] Message3 :> Get '[JSON] [SendFileRef]
-         :<|> "mapFile"                 :> ReqBody '[JSON] Message :> Get '[JSON] [SendFileRef]
-         :<|> "dirShadowing"            :> ReqBody '[JSON] Message3 :> Post '[JSON] [SendFileRef]
+         :<|> "mapFile"                 :> ReqBody '[JSON] Message3 :> Get '[JSON] [SendFileRef]
+         :<|> "dirShadowing"            :> ReqBody '[JSON] Message4 :> Post '[JSON] [SendFileRef]
 
 type InterServerAPI = "ping"               :> ReqBody '[JSON] Message :> Post '[JSON] Bool -- Message sufficient?
                  :<|> "registerFS"         :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool

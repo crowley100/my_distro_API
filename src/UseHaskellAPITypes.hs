@@ -40,6 +40,13 @@ data Message3 = Message3 { one    :: String
                          , three  :: String
                          } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
 
+-- | Generic four element message.
+data Message4 = Message4 { val1    :: String
+                         , val2    :: String
+                         , val3  :: String
+                         , val4   :: String
+                         } deriving (Show, Eq, Generic, FromJSON, ToJSON, ToBSON, FromBSON)
+
 -- | Type to identify transaction owner.
 data CurrentTrans = CurrentTrans { tOwner  :: String
                                  , myTID :: String
