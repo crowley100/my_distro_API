@@ -117,6 +117,7 @@ data Modification = Modification { fileRef      :: SendFileRef
 -- this data type is upload variation for tServer
 data FileTransaction = FileTransaction { tID          :: String
                                        , modification :: Modification
+                                       , authTicket   :: String
                                        }deriving (Show, Eq, Generic, ToJSON, FromJSON, ToBSON, FromBSON)
 
 -- this data type is stored on transaction server

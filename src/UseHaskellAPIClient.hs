@@ -41,7 +41,7 @@ unlock :: Message3 -> ClientM Bool
 locked :: Message -> ClientM Bool
 -- file service stuff here
 download :: Message -> ClientM [Message]
-upload :: Message -> ClientM Bool
+upload :: Message3 -> ClientM Bool
 updateShadowDB :: Shadow -> ClientM Bool
 pushTransaction :: String -> ClientM Bool
 replicateFile :: Message -> ClientM Bool

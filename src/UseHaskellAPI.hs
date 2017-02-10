@@ -141,7 +141,7 @@ type LockAPI = "lock"                   :> ReqBody '[JSON] Message3 :> Post '[JS
 -- using Message type for files
 -- requests rooted through directory service first
 type FileAPI = "download"               :> ReqBody '[JSON] Message :> Get '[JSON] [Message]
-          :<|> "upload"                 :> ReqBody '[JSON] Message :> Post '[JSON] Bool
+          :<|> "upload"                 :> ReqBody '[JSON] Message3 :> Post '[JSON] Bool
           :<|> "updateShadowDB"         :> ReqBody '[JSON] Shadow :> Post '[JSON] Bool
           :<|> "pushTransaction"        :> ReqBody '[JSON] String :> Post '[JSON] Bool
           :<|> "replicateFile"          :> ReqBody '[JSON] Message :> Post '[JSON] Bool
