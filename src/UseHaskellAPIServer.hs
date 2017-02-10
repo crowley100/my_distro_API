@@ -42,6 +42,7 @@ import           System.Log.Handler.Simple
 import           System.Log.Handler.Syslog
 import           System.Log.Logger
 import           UseHaskellAPI
+import           UseHaskellAPITypes
 
 -- Inter server communication API...
 restInterServerAPI :: Proxy InterServerAPI

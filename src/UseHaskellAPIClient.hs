@@ -11,6 +11,7 @@ import           Data.Proxy
 import           Servant.API
 import           Servant.Client
 import           UseHaskellAPI
+import           UseHaskellAPITypes
 
 
 restAuthAPI :: Proxy AuthAPI
@@ -39,7 +40,7 @@ lock :: Message3 -> ClientM Bool
 unlock :: Message3 -> ClientM Bool
 locked :: Message -> ClientM Bool
 -- file service stuff here
-download :: Maybe String -> ClientM [Message]
+download :: Message -> ClientM [Message]
 upload :: Message -> ClientM Bool
 updateShadowDB :: Shadow -> ClientM Bool
 pushTransaction :: String -> ClientM Bool
@@ -47,7 +48,7 @@ replicateFile :: Message -> ClientM Bool
 -- directory service stuff here
 lsDir :: StrWrap -> ClientM ResponseData
 lsFile :: Message -> ClientM [FsContents]
-fileQuery :: Message -> ClientM [SendFileRef]
+fileQuery :: Message3 -> ClientM [SendFileRef]
 mapFile :: Message -> ClientM [SendFileRef]
 dirShadowing :: Message3 -> ClientM [SendFileRef]
 -- transaction stuff here (phase 1 client to transaction server)
