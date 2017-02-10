@@ -226,7 +226,7 @@ data ResponseData = ResponseData { response :: String
                                  } deriving (Generic, ToJSON, FromJSON,FromBSON, Show)
 
 -- Service information begins --
-defaultHost = "10.6.94.79" -- temporary ip to work with tcd proxy
+defaultHost = "10.6.77.140" -- temporary ip to work with tcd proxy
 
 -- parses ip from ifconfig
 --defaultHost :: IO String
