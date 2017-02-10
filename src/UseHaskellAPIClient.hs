@@ -52,10 +52,10 @@ fileQuery :: Message3 -> ClientM [SendFileRef]
 mapFile :: Message3 -> ClientM [SendFileRef]
 dirShadowing :: Message4 -> ClientM [SendFileRef]
 -- transaction stuff here (phase 1 client to transaction server)
-beginTransaction :: ClientM ResponseData
+beginTransaction :: StrWrap -> ClientM ResponseData
 tUpload :: FileTransaction -> ClientM Bool
-commit :: String -> ClientM Bool
-abort :: String -> ClientM Bool
+commit :: Message -> ClientM Bool
+abort :: Message -> ClientM Bool
 readyCommit :: Message -> ClientM Bool
 confirmCommit :: Message -> ClientM Bool
 

@@ -160,9 +160,9 @@ type InterServerAPI = "ping"               :> ReqBody '[JSON] Message :> Post '[
 
 -- client will specify transactions separate from regular upload/download
 -- upload still rooted through directory service first
-type TransAPI = "beginTransaction"      :> Get '[JSON] ResponseData -- tID
+type TransAPI = "beginTransaction"      :>  ReqBody '[JSON] StrWrap :> Get '[JSON] ResponseData -- tID
            :<|> "tUpload"               :> ReqBody '[JSON] FileTransaction :> Post '[JSON] Bool
-           :<|> "commit"                :> ReqBody '[JSON] String :> Get '[JSON] Bool
-           :<|> "abort"                 :> ReqBody '[JSON] String :> Get '[JSON] Bool
+           :<|> "commit"                :> ReqBody '[JSON] Message :> Get '[JSON] Bool
+           :<|> "abort"                 :> ReqBody '[JSON] Message :> Get '[JSON] Bool
            :<|> "readyCommit"           :> ReqBody '[JSON] Message :> Get '[JSON] Bool -- tid ++ fpath?
            :<|> "confirmCommit"         :> ReqBody '[JSON] Message :> Get '[JSON] Bool-- tid ++ fpath?
