@@ -93,7 +93,6 @@ toResponseData msg@(PubKeyInfo strKey strN strE)=((ResponseData $ strKey):(Respo
 -- parses ip from ifconfig
 defaultHost :: IO String
 defaultHost = do
-  (_, Just hout, _, _) <- createProcess (proc "hostname" ["-I"]){ std_out = CreatePipe }
   (_, Just hout, _, _) <- createProcess (shell "/sbin/ip route|awk '/default/ { print $3 }'" ){ std_out = CreatePipe }
   getHost <- hGetContents hout
   return getHost
