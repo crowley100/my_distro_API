@@ -88,23 +88,23 @@ toResponseData :: PubKeyInfo -> [ResponseData]
 toResponseData msg@(PubKeyInfo strKey strN strE)=((ResponseData $ strKey):(ResponseData $ strN):(ResponseData $ strE):[])
 
 -- Service information begins --
-defaultHost = "10.6.77.140" -- temporary ip to work with tcd proxy
+--defaultHost = "10.6.77.140" -- temporary ip to work with tcd proxy
 
 -- parses ip from ifconfig
---defaultHost :: IO String
---defaultHost = do
---  (_, Just hout, _, _) <- createProcess (proc "hostname" ["-I"]){ std_out = CreatePipe }
---  getHost <- hGetContents hout
---  return $ head $ words getHost
+defaultHost :: IO String
+defaultHost = do
+  (_, Just hout, _, _) <- createProcess (proc "hostname" ["-I"]){ std_out = CreatePipe }
+  getHost <- hGetContents hout
+  return $ head $ words getHost
 
 servDoCall f p = (SC.runClientM f =<< servEnv p)
 
 servEnv :: Int -> IO SC.ClientEnv
 servEnv p = do
   man <- newManager defaultManagerSettings
-  --h <- defaultHost
+  h <- defaultHost
   --putStrLn h
-  return (SC.ClientEnv man (SC.BaseUrl SC.Http defaultHost p ""))
+  return (SC.ClientEnv man (SC.BaseUrl SC.Http h p ""))
 
 -- possibly convert ports to strings...
 fs1IP = defaultHost
