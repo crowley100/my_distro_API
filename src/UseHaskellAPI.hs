@@ -94,16 +94,16 @@ dockerHost = "172.17.0.1"
 defaultHost :: IO String
 defaultHost = do
   (_, Just hout, _, _) <- createProcess (shell "/sbin/ip route|awk '/default/ { print $3 }'" ){ std_out = CreatePipe }
-  getHost <- hGetContents hout
-  return getHost
+  dockHost <- hGetContents hout
+  return $ filter (/= '\n') dockHost
 
 servDoCall f p = (SC.runClientM f =<< servEnv p)
 
 servEnv :: Int -> IO SC.ClientEnv
 servEnv p = do
   man <- newManager defaultManagerSettings
-  --h <- defaultHost
-  return (SC.ClientEnv man (SC.BaseUrl SC.Http dockerHost p ""))
+  h <- defaultHost
+  return (SC.ClientEnv man (SC.BaseUrl SC.Http h p ""))
 
 -- possibly convert ports to strings...
 fs1IP = dockerHost
