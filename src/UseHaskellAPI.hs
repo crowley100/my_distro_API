@@ -88,7 +88,7 @@ toResponseData :: PubKeyInfo -> [ResponseData]
 toResponseData msg@(PubKeyInfo strKey strN strE)=((ResponseData $ strKey):(ResponseData $ strN):(ResponseData $ strE):[])
 
 -- Service information begins --
---defaultHost = "172.17.0.15" -- temporary ip to work with tcd proxy
+dockerHost = "172.17.0.1"
 
 -- parses ip from ifconfig
 defaultHost :: IO String
@@ -102,28 +102,28 @@ servDoCall f p = (SC.runClientM f =<< servEnv p)
 servEnv :: Int -> IO SC.ClientEnv
 servEnv p = do
   man <- newManager defaultManagerSettings
-  h <- defaultHost
-  return (SC.ClientEnv man (SC.BaseUrl SC.Http h p ""))
+  --h <- defaultHost
+  return (SC.ClientEnv man (SC.BaseUrl SC.Http dockerHost p ""))
 
 -- possibly convert ports to strings...
-fs1IP = defaultHost
-fs2IP = defaultHost
-fs3IP = defaultHost
+fs1IP = dockerHost
+fs2IP = dockerHost
+fs3IP = dockerHost
 
 fs1Port = 8081 :: Int
 fs2Port = 8082 :: Int
 fs3Port = 8083 :: Int
 
-authIP = defaultHost
+authIP = dockerHost
 authPort = 8001 :: Int
 
-dirIP = defaultHost
+dirIP = dockerHost
 dirPort = 8000 :: Int
 
-transIP = defaultHost
+transIP = dockerHost
 transPort = 8080 :: Int
 
-lockIP = defaultHost
+lockIP = dockerHost
 lockPort = 8002 :: Int
 -- Service information ends --
 
